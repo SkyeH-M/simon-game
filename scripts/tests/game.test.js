@@ -3,7 +3,7 @@
  */
 
 // import game obj into test file:
-const { game, newGame } = require("../game");
+const { game, newGame, showScore } = require("../game");
 
 
 beforeAll(() => {
@@ -36,9 +36,11 @@ describe("game object contains correct keys", () => {
 describe("newGame works correctly", () => {
     beforeAll(() => {
         game.score = 42;
-        newGame();
         game.playerMoves = ["button1", "button2"];
         game.currentGame = ["button1", "button2"];
+        // set score on DOM to 42 so we can see if it gets reset to 0 by newGame()
+        document.getElementById("score").innerText = "42";
+        newGame();
     });
     test("should set game score to zero", () => {
         expect(game.score).toEqual(0);
@@ -48,5 +50,8 @@ describe("newGame works correctly", () => {
     });
     test("should clear the player moves array", () => {
         expect(game.playerMoves.length).toBe(0);
+    });
+    test("should display 0 for the element with the id of score", () => {
+        expect(document.getElementById("score").innerText).toEqual(0);
     });
 });
